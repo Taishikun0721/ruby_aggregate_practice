@@ -8,10 +8,9 @@ class HighMotivationUserAggregator
 
   # 実装してください
   def exec
-    channels = []
-    channel_names.each do |channel|
+    channels = channel_names.map do |channel|
       data = load(channel)
-      channels << { channel_name: channel, message_count: data.dig('messages').size }
+      { channel_name: channel, message_count: data.dig('messages').size }
     end
     channels.max_by(POST_RANKING) {|channel| channel[:message_count] }
   end

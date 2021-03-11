@@ -11,9 +11,9 @@ class HighMotivationUserAggregator
     channels = []
     channel_names.each do |channel|
       data = load(channel)
-      channels << { :channel_name => channel, :message_count => data.dig('messages').size }
+      channels << { channel_name: channel, message_count: data.dig('messages').size }
     end
-    channels.max_by(POST_RANKING) {|r| r[:message_count] }
+    channels.max_by(POST_RANKING) {|channel| channel[:message_count] }
   end
 
   def load(channel_name)

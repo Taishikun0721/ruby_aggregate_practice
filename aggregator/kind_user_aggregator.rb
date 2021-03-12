@@ -12,7 +12,7 @@ class KindUserAggregator
       reactions = data.dig('messages').flat_map { |message| message.dig('reactions', 0, 'users') }.compact
       reactions.group_by(&:itself).map { |key, value| [key, value.count] }.to_h
     end
-    stamp_count = {}.merge(*stamp_count).sort_by { |key, value| value }.to_h
+    stamp_count = {}.merge(*stamp_count) { |key, value, next_value| value + next_value }.sort_by { |key, value| value }.to_h
     stamp_count.map { |key, value| { user_id: key, reaction_count: value } }.reverse
   end
 

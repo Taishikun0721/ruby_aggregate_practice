@@ -7,13 +7,13 @@ class KindUserAggregator
 
   # 実装してください
   def exec
-    stamp_count = channel_names.map do |channel|
+    channel_names.map do |channel|
       data = load(channel)
       reactions = data.dig('messages').flat_map { |message| message.dig('reactions', 0, 'users') }.compact
-      reactions.group_by(&:itself).map { |key, value| [key, value.count] }.to_h
+      stamp_count = reactions.group_by(&:itself).map { |key, value| [key, value.count] }.to_h
+      stamp_count.max_by { |key, value| value }
+          .then { |key, value| { user_id: key, reaction_count: value } }
     end
-    stamp_count = {}.merge(*stamp_count) { |key, value, next_value| value + next_value }.sort_by { |key, value| value }.to_h
-    stamp_count.map { |key, value| { user_id: key, reaction_count: value } }.reverse
   end
 
   def load(channel_name)

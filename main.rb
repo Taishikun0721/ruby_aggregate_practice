@@ -10,7 +10,7 @@ channel_names = ["times_makotokonishi.json", "times_gen.json", "times_taishiro.j
 # 一番発信数が多いチャンネル ベスト3
 # @param  ["times_makotokonishi.json", "times_gen.json", "times_taishiro.json", "times_miketa.json", "times_halki.json", "sparta_course.json"]
 # @return [{:channel_name=>"●●●.json", :message_count=>●●●}, {:channel_name=>"●●●.json", :message_count=>●●●}, {:channel_name=>"●●●.json", :message_count=>●●●}]]
-p HighMotivationUserAggregator.new(channel_names).exec
+p HighMotivationUserAggregator.new(channel_names, ranking_limit: 4).exec
 
 # 一番スタンプを押してるユーザー
 # @param  ["times_makotokonishi.json", "times_gen.json", "times_taishiro.json", "times_miketa.json", "times_halki.json", "sparta_course.json"]

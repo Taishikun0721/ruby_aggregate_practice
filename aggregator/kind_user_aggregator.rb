@@ -10,12 +10,12 @@ class KindUserAggregator
     stamp_counts = channel_names.map do |channel|
       data = load(channel)
       reactions = data.dig('messages').map { |message| message.dig('reactions') }
-      reactions = reactions.compact.flatten
+      reactions.compact!.flatten!
       stamp_count = reactions.map { |reaction| reaction.dig('users') }.flatten
       stamp_count.group_by(&:itself).map { |key, value| [key, value.count]}.to_h
     end
-    {}.merge(*stamp_counts) { |key, value, next_value| value + next_value }
-        .max_by(3) { |key, value| value }
+    {}.merge(*stamp_counts) { |_ , value, next_value| value + next_value }
+        .max_by(3) { |_, value| value }
         .map { |key, value| { user_id: key, reaction_count: value } }
   end
 
